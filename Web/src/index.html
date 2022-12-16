@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bricks</title>
+    <script src="enviromentVars.js"></script>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
+    
+</head>
+<body onload='connect()'>
+    <div id = "banner"><img src="default.avif" id="bannerimg"></div>
+    <div id ='inputMenu'>
+        <input type="number" name="input" id="input" onchange="inputChanged()"><br><br>
+        <input type="button" value="New Barcode" onclick="addItem()">
+    </div>
+    <div id='grid'>
+
+    </div>
+</body>
+</html>

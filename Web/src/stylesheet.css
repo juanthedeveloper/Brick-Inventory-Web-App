@@ -1,0 +1,30 @@
+#grid{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+.gridItem{
+    width: 150px;
+    max-height: 200px;
+    text-align: center;
+    margin: 5px 5px 5px 5px;
+    border: solid;
+    
+}
+
+.img{
+   height: 100px;
+    width: 100px;
+}
+
+#inputMenu{
+    float: left;
+}
+
+#bannerimg{
+width: fit-content;
+max-height: 110px;
+}
+#banner{
+    text-align: center;
+}

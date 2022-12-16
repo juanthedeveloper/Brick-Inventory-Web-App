@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="enviromentVars.js"></script>
+    <script src="editMenu.js"></script>
+    <link rel="stylesheet" href="menuStyle.css">
+</head>
+
+<body onload="load()">
+
+    <div>
+        <div class="gridItem">
+            <img src='default.avif' id="img">
+            <p id="itemInfo"></p>
+            <div class="menu">
+                <button onclick="changeQuantity()">Change Quantity</button>
+                <button onclick="deleteItem()">Delete Item</button><br><br>
+                <input type="file" id="fileUpload" accept="image/png, image/jpeg">
+                <input type="button" onclick="addPhoto()" value="Change Photo"><br><br><br>
+                <input type="button" onclick="location.assign('index.html')" value="Finish" id="finish">
+            </div>
+        </div>
+        <div id="calculations">
+            <input type="text" name="input" onchange="inputChanged()" id="inputquantity" onblur="focus()">
+            <p id="math"></p>
+        </div>
+        
+    </div>
+
+</body>
+
+</html>

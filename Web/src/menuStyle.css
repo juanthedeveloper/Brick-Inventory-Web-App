@@ -1,0 +1,22 @@
+#grid{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+.gridItem{
+    text-align: center;
+    margin: 25px 0px 25px 0px;
+    
+}
+
+#img{
+   height: 300px;
+    width: 300px;
+}
+
+.menu{
+    text-align: center;
+}
+#calculations{
+    float: left;
+}
