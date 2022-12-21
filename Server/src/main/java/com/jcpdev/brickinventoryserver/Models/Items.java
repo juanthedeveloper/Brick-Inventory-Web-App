@@ -13,6 +13,18 @@ public class Items implements Comparable<Items> {
     @Column(columnDefinition = "varchar(999) default 'https://cdn.shopify.com/s/files/1/0876/7136/files/small_bt_250x@2x.png?v=1613547089'")
     private String photoUrl;
 
+    public int getMinimumQuantity() {
+        return minimumQuantity;
+    }
+
+    public void setMinimumQuantity(int minimumQuantity) {
+        this.minimumQuantity = minimumQuantity;
+    }
+
+    @Column(columnDefinition = "bigint default '500'")
+    private int minimumQuantity;
+
+
     public long getPartNumber() {
         return partNumber;
     }

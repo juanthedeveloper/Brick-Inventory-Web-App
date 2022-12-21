@@ -5,8 +5,7 @@ import com.jcpdev.brickinventoryserver.Repo.ItemsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
-import java.util.ArrayList;
+import javax.mail.MessagingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,8 +14,10 @@ import static com.jcpdev.brickinventoryserver.Constants.*;
 @RestController
 public class ApiControllers {
 
+
     @Autowired
     private ItemsRepo itemsRepo;
+
 
     @CrossOrigin
     @GetMapping(value = "/login/{password}")
@@ -24,6 +25,7 @@ public class ApiControllers {
         if (password.equals(PASSWORD)) {
 
             return BASEURL;
+
         } else {
             return "Wrong password";
         }
@@ -85,13 +87,33 @@ public class ApiControllers {
 
     @CrossOrigin
     @GetMapping(value = "/{token}/{barcode}/changequantity/{quantity}")
-    public void changeQuantity(@PathVariable int token, @PathVariable long barcode, @PathVariable int quantity) {
+    public void changeQuantity(@PathVariable int token, @PathVariable long barcode, @PathVariable int quantity){
         if (token == TOKEN) {
             Items updatedItem = itemsRepo.findById(barcode).get();
             updatedItem.setQuantity(quantity);
             itemsRepo.save(updatedItem);
         }
 
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{token}/{barcode}/setminquantity/{minquantity}")
+    public void setMinQuantity(@PathVariable int token, @PathVariable long barcode, @PathVariable int minquantity) {
+        if (token == TOKEN) {
+            Items updatedItem = itemsRepo.findById(barcode).get();
+            updatedItem.setMinimumQuantity(minquantity);
+            itemsRepo.save(updatedItem);
+        }
+
+    }
+    @CrossOrigin
+    @GetMapping(value = "/{token}/{barcode}/getminquantity/")
+    public int getMinQuantity(@PathVariable int token, @PathVariable long barcode) {
+        if (token == TOKEN) {
+            Items Item = itemsRepo.findById(barcode).get();
+            return Item.getMinimumQuantity();
+        }
+    return 0;
     }
 
     @CrossOrigin
@@ -117,7 +139,7 @@ public class ApiControllers {
     public void changePhoto(@PathVariable int token, @PathVariable long barcode, @PathVariable String photourl) {
         if (token == TOKEN) {
             Items Item = itemsRepo.findById(barcode).get();
-            Item.setPhotoUrl("https://brickphotos.s3.amazonaws.com/" + photourl);
+            Item.setPhotoUrl(PHOTOSURl + photourl);
             itemsRepo.save(Item);
         }
 
