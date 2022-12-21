@@ -5,7 +5,12 @@ import com.jcpdev.brickinventoryserver.Repo.ItemsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static com.jcpdev.brickinventoryserver.Constants.*;
 
 @RestController
 public class ApiControllers {
@@ -14,56 +19,120 @@ public class ApiControllers {
     private ItemsRepo itemsRepo;
 
     @CrossOrigin
-    @GetMapping(value = "/")
-    public List<Items> loadAllItems(){
-        return itemsRepo.findAll();
+    @GetMapping(value = "/login/{password}")
+    public String logIn(@PathVariable String password) {
+        if (password.equals(PASSWORD)) {
+
+            return BASEURL;
+        } else {
+            return "Wrong password";
+        }
     }
 
     @CrossOrigin
-    @GetMapping(value = "/{barcode}")
-    public Items getItem(@PathVariable long barcode){
-        return itemsRepo.findById(barcode).get();
-    }
+    @GetMapping(value = "/{token}")
+    public List<Items> loadAllItems(@PathVariable int token) {
+        if (token == TOKEN) {
+            List<Items> List = itemsRepo.findAll();
+            Collections.sort(List);
+            return List;
+        } else return null;
 
-
-
-    @CrossOrigin
-    @GetMapping(value = "/additem")
-    public void addItem(){
-    Items newItems = new Items();
-    newItems.setPhotoUrl("default.avif");
-    itemsRepo.save(newItems);
     }
 
     @CrossOrigin
-    @GetMapping(value ="/changequantity/{barcode}/{quantity}")
-    public void changeQuantity(@PathVariable long barcode, @PathVariable int quantity){
-        Items updatedItem = itemsRepo.findById(barcode).get();
-        updatedItem.setQuantity(quantity);
-        itemsRepo.save(updatedItem);
+    @GetMapping(value = "/{token}/{partnumber}")
+    public Items getItemByPartNumber(@PathVariable int token, @PathVariable long partnumber) {
+        if (token == TOKEN) {
+            return itemsRepo.findByPartNumber(partnumber);
+        } else return null;
+
     }
 
     @CrossOrigin
-    @GetMapping(value = "/{barcode}/quantity")
-    public long getQuantity(@PathVariable long barcode){
-        return itemsRepo.findById(barcode).get().getQuantity();
+    @GetMapping(value = "/{token}/{barcode}/changepartnumber/{newPartNumber}")
+    public String changePartNumber(@PathVariable int token, @PathVariable long barcode, @PathVariable long newPartNumber) {
+        if (token == TOKEN) {
+            Items updateItem = itemsRepo.findById(barcode).get();
+            if (!itemsRepo.existsByPartNumber(newPartNumber)) {
+                updateItem.setPartNumber(newPartNumber);
+                itemsRepo.save(updateItem);
+                return "success";
+            } else {
+                return "Duplicate part number";
+            }
+        }else {
+            return "Not logged in";
+        }
+
     }
 
     @CrossOrigin
-    @GetMapping (value = "/{barcode}/delete")
-    public void deleteItem(@PathVariable long barcode){
-        Items deleteItem = itemsRepo.findById(barcode).get();
-        itemsRepo.delete(deleteItem);
+    @GetMapping(value = "/{token}/additem")
+    public void addItem(@PathVariable int token) {
+        if (token == TOKEN) {
+            Items newItem = new Items();
+            newItem.setPhotoUrl("default.jpg");
+            newItem.setName("item name");
+            itemsRepo.save(newItem);
+            Items updatedItem = itemsRepo.findById(newItem.getBarcode()).get();
+            updatedItem.setPartNumber(newItem.getBarcode());
+            itemsRepo.save(updatedItem);
+
+        }
+
     }
 
     @CrossOrigin
-    @GetMapping (value = "/{barcode}/changephoto/{photourl}")
-    public void changePhoto(@PathVariable long barcode, @PathVariable String photourl){
-        Items Item = itemsRepo.findById(barcode).get();
-        Item.setPhotoUrl("https://brickphotos.s3.amazonaws.com/"+photourl);
-        itemsRepo.save(Item);
+    @GetMapping(value = "/{token}/{barcode}/changequantity/{quantity}")
+    public void changeQuantity(@PathVariable int token, @PathVariable long barcode, @PathVariable int quantity) {
+        if (token == TOKEN) {
+            Items updatedItem = itemsRepo.findById(barcode).get();
+            updatedItem.setQuantity(quantity);
+            itemsRepo.save(updatedItem);
+        }
+
     }
 
+    @CrossOrigin
+    @GetMapping(value = "/{token}/{barcode}/quantity")
+    public long getQuantity(@PathVariable int token, @PathVariable long barcode) {
+        if (token == TOKEN) {
+            return itemsRepo.findById(barcode).get().getQuantity();
+        } else return 0;
+
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{token}/{barcode}/delete")
+    public void deleteItem(@PathVariable int token, @PathVariable long barcode) {
+        if (token == TOKEN) {
+            Items deleteItem = itemsRepo.findById(barcode).get();
+            itemsRepo.delete(deleteItem);
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{token}/{barcode}/changephoto/{photourl}")
+    public void changePhoto(@PathVariable int token, @PathVariable long barcode, @PathVariable String photourl) {
+        if (token == TOKEN) {
+            Items Item = itemsRepo.findById(barcode).get();
+            Item.setPhotoUrl("https://brickphotos.s3.amazonaws.com/" + photourl);
+            itemsRepo.save(Item);
+        }
+
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/{token}/{barcode}/changename/{name}")
+    public void changeName(@PathVariable int token, @PathVariable long barcode, @PathVariable String name) {
+        if (token == TOKEN) {
+            Items Item = itemsRepo.findById(barcode).get();
+            Item.setName(name);
+            itemsRepo.save(Item);
+        }
+
+    }
 
 
 }
