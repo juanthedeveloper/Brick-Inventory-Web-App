@@ -15,6 +15,7 @@ function load() {
         document.getElementById('itemName').innerText = item.name;
         document.getElementById('itemPartNumber').innerText = 'Part #' + item.partNumber;
         document.getElementById('itemQuantity').innerText = 'QTY ' + item.quantity;
+        document.getElementById('itemMinimum').innerText = 'Minimum QTY ' + item.minimumQuantity;
     }), (error) => {
         window.alert('Error did not complete, is the server running\n?' + error);
     })
@@ -134,12 +135,21 @@ function changePartNumber() {
     if (newPartNumber != null) {
         fetch(host + token + '/' + barcode + '/changepartnumber/' + newPartNumber).then((response) => response.text()).then((answer) => {
             if (answer.includes('success')) {
-                location.assign('editMenu.html?' + 'partnumber=' + newPartNumber+'&token='+token);
+                location.assign('editMenu.html?' + 'partnumber=' + newPartNumber + '&token=' + token);
             } else {
                 alert('part number already exist');
             }
 
         }, (error) =>
             alert('part number already exist' + error));
+    }
+}
+
+function changeMinQuantity() {
+    let newPartMin = prompt('Enter new minimum');
+    newPartMin = Number(newPartMin);
+    if (newPartMin != null) {
+        fetch(host + token + '/' + barcode + '/setminquantity/' + newPartMin).then(() => location.reload(), () => alert('part number already exist'))
+
     }
 }

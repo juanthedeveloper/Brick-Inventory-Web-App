@@ -17,14 +17,16 @@
 
     <div>
         <div class="gridItem">
-            <img src='default.jpg' id="img" alt="default.jpg">
+            <img src='/default.jpg' id="img" alt="default.jpg">
             <p id="itemName"></p>
             <p id="itemPartNumber"></p>
             <p id="itemQuantity"></p>
+            <p id="itemMinimum"></p>
             <div class="menu">
                 <button onclick="changeName()">Change Name</button>
                 <button onclick="changePartNumber()">Change Part Number</button>
                 <button onclick="changeQuantity()">Change Quantity</button>
+                <button onclick="changeMinQuantity()">Change Min Quantity</button>
                 <button onclick="deleteItem()">Delete Item</button><br><br>
                 <input type="file" id="fileUpload" accept="image/png, image/jpeg">
                 <input type="button" onclick="addPhoto()" value="Change Photo"><br><br><br>

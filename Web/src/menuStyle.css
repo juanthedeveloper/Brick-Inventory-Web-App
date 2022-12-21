@@ -30,3 +30,6 @@
 #itemName+#itemBarcode{
     font-size: larger;
 }
+#itemMinimum{
+    color: red;
+}
