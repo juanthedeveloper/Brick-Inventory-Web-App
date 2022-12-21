@@ -1,20 +1,23 @@
-let validBarcodes = [];
+let validPartNumbers = [];
+
 
 
 function connect() {
+    let params = (new URL(document.location)).searchParams;
+    let token = params.get('token');
     document.getElementById('input').focus();
-    validBarcodes = [];
+    validPartNumbers = [];
 
-    fetch(host).then((items) => items.json()).then((item) =>
+    fetch(host+token).then((items) => items.json()).then((item) =>
         item.forEach(item => {
-            validBarcodes.push(item.barcode);
+            validPartNumbers.push(item.partNumber);
 
             let grid = document.getElementById('grid');
 
             let editButton = document.createElement('button');
             editButton.textContent = 'edit';
             editButton.onclick = function () {
-                location.assign('editMenu.html?photoUrl=' + '&barcode=' + item.barcode);
+                location.assign('editMenu.html?' + 'partnumber=' + item.partNumber+'&token='+token);
 
             }
 
@@ -29,15 +32,27 @@ function connect() {
 
             let img = document.createElement('img');
             img.src = item.photoUrl;
+            img.alt ='default.jpg';
             img.className = 'img';
 
-            let itemInfo = document.createElement('p');
-            itemInfo.innerText = 'Barcode #: ' + item.barcode + '\n' + item.quantity + 'pcs';
-            itemInfo.className = 'itemInfo';
+            let itemName = document.createElement('p');
+            itemName.innerText= item.name;
+            itemName.className = 'itemName';
+            
+
+            let partNumber = document.createElement('p');
+            partNumber.innerText = 'Part #' + item.partNumber;
+            partNumber.className = 'partNumber';
+
+            let itemQuantity = document.createElement('p');
+            itemQuantity.innerText = 'QTY ' + item.quantity;
+            itemQuantity.className = 'itemQuantity';
 
             gridItem.appendChild(gridMenu);
             gridItem.appendChild(img);
-            gridItem.appendChild(itemInfo);
+            gridItem.appendChild(itemName);
+            gridItem.appendChild(partNumber);
+            gridItem.appendChild(itemQuantity);
             grid.appendChild(gridItem);
 
 
@@ -46,13 +61,19 @@ function connect() {
 }
 
 function inputChanged() {
+    let params = (new URL(document.location)).searchParams;
+    let token = params.get('token');
     let input = Number(document.getElementById('input').value);
-    if (validBarcodes.includes(input)) {
-        location.assign('editMenu.html?photoUrl=' + '&barcode=' + input);
+    if (validPartNumbers.includes(input)) {
+        location.assign('editMenu.html?' + 'partnumber=' + input+'&token='+ token);
     }
     document.getElementById('input').value = '';
 }
 
 function addItem() {
-    fetch(host + 'additem').then(() => location.reload())
+    let params = (new URL(document.location)).searchParams;
+   let token = params.get('token');
+    fetch(host+token + '/additem').then(() => {
+        location.reload();
+    })
 }

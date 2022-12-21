@@ -20,3 +20,13 @@
 #calculations{
     float: left;
 }
+
+#itemQuantity{
+    color: green;
+    text-emphasis: bold;
+    font-size: xx-large;
+}
+
+#itemName+#itemBarcode{
+    font-size: larger;
+}

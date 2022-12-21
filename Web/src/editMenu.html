@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Brick Tactical Inventory</title>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.3.1.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="enviromentVars.js"></script>
@@ -17,14 +17,18 @@
 
     <div>
         <div class="gridItem">
-            <img src='default.avif' id="img">
-            <p id="itemInfo"></p>
+            <img src='default.jpg' id="img" alt="default.jpg">
+            <p id="itemName"></p>
+            <p id="itemPartNumber"></p>
+            <p id="itemQuantity"></p>
             <div class="menu">
+                <button onclick="changeName()">Change Name</button>
+                <button onclick="changePartNumber()">Change Part Number</button>
                 <button onclick="changeQuantity()">Change Quantity</button>
                 <button onclick="deleteItem()">Delete Item</button><br><br>
                 <input type="file" id="fileUpload" accept="image/png, image/jpeg">
                 <input type="button" onclick="addPhoto()" value="Change Photo"><br><br><br>
-                <input type="button" onclick="location.assign('index.html')" value="Finish" id="finish">
+                <input type="button" onclick="finish()" value="Finish" id="finish">
             </div>
         </div>
         <div id="calculations">
