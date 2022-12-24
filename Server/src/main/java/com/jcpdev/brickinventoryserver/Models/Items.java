@@ -10,7 +10,7 @@ public class Items implements Comparable<Items> {
     private long barcode;
     @Column(columnDefinition = "bigint default '0'")
     private int quantity;
-    @Column(columnDefinition = "varchar(999) default 'https://cdn.shopify.com/s/files/1/0876/7136/files/small_bt_250x@2x.png?v=1613547089'")
+    @Column(columnDefinition = "varchar(999) default 'default.jpg'")
     private String photoUrl;
 
     public int getMinimumQuantity() {

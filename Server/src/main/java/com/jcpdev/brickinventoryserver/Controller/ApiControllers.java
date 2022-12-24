@@ -4,8 +4,6 @@ import com.jcpdev.brickinventoryserver.Models.Items;
 import com.jcpdev.brickinventoryserver.Repo.ItemsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.mail.MessagingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,9 +74,17 @@ public class ApiControllers {
             Items newItem = new Items();
             newItem.setPhotoUrl("default.jpg");
             newItem.setName("item name");
+            newItem.setMinimumQuantity(500);
             itemsRepo.save(newItem);
             Items updatedItem = itemsRepo.findById(newItem.getBarcode()).get();
-            updatedItem.setPartNumber(newItem.getBarcode());
+            int partNumber = (int) updatedItem.getBarcode();
+            System.out.println(partNumber);
+            while(itemsRepo.existsByPartNumber(partNumber)) {
+                System.out.println(partNumber);
+                partNumber++;
+                System.out.println(partNumber);
+            }
+            updatedItem.setPartNumber(partNumber);
             itemsRepo.save(updatedItem);
 
         }
